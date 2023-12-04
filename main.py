@@ -1,7 +1,7 @@
 from fourinarow import fourInRow
 import importlib.util
 import time
-
+import concurrent.futures
 
 def game():
     # Get bots
@@ -16,26 +16,49 @@ def game():
     bot2 = bot2_module.Bot()
 
     board = fourInRow.Board()
-    print(board.is_game_over())
+    # print(board.is_game_over())
+
+    # Initialize time counters for each bot
+    time_bot1 = 10
+    time_bot2 = 10
 
     # Play the game
     while not board.is_game_over():
+        start_time = time.time()
         if board.turn:
-            move = bot1.choose_move(board)
+            bot = bot1
+            remaining_time = time_bot1
         else:
-            move = bot2.choose_move(board)
+            bot = bot2
+            remaining_time = time_bot2
+
+        # Run the bot's choose_move function with a timeout
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            future = executor.submit(bot.choose_move, board)
+            try:
+                move = future.result(timeout=remaining_time)
+            except concurrent.futures.TimeoutError:
+                print("Time limit exceeded")
+                break
+
+        end_time = time.time()
+        elapsed_time = end_time - start_time
+
+        # Update time counters
+        if board.turn:
+            time_bot1 -= elapsed_time
+        else:
+            time_bot2 -= elapsed_time
 
         # Check if the move is legal
         if move not in list(board.legal_moves):
             print("Illegal move: " + str(move))
             break
-        time.sleep(1)
 
-        print(board)
+        print(time_bot1, time_bot2)
         print("----------")
         board.push(move)
         print(board)
-
 
     # Print the result of the game
     if board.is_win():
@@ -45,5 +68,6 @@ def game():
             print("Bot 1 wins")
     elif board.is_draw():
         print("The game is a draw")
+
 if __name__ == "__main__":
     game()
