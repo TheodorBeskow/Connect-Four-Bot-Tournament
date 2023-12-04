@@ -74,7 +74,7 @@ class fourInRow:
             return win
 
         def is_draw(self): # is filled
-            if len(self.legal_moves) == 0 and self.win() == False:
+            if len(self.legal_moves) == 0 and self.is_win() == False:
                 return True
             return False
         
