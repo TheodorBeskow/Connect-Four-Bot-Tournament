@@ -1,7 +1,49 @@
-from fourinarow import fourInRow
+from connect4 import Connect4
 import importlib.util
 import time
 import concurrent.futures
+import pygame
+
+def draw_board(board):
+    for c in range(COLUMN_COUNT):
+        for r in range(ROW_COUNT):
+            pygame.draw.rect(screen, BLUE, (c*SQUARESIZE, r*SQUARESIZE+SQUARESIZE, SQUARESIZE, SQUARESIZE))
+            pygame.draw.circle(screen, BLACK, (int(c*SQUARESIZE+SQUARESIZE/2), int(r*SQUARESIZE+SQUARESIZE+SQUARESIZE/2)), RADIUS)
+     
+    for c in range(COLUMN_COUNT):
+        for r in range(ROW_COUNT):      
+            if board[r][c] == 1:
+                pygame.draw.circle(screen, RED, (int(c*SQUARESIZE+SQUARESIZE/2), height-int(r*SQUARESIZE+SQUARESIZE/2)), RADIUS)
+            elif board[r][c] == 0: 
+                pygame.draw.circle(screen, YELLOW, (int(c*SQUARESIZE+SQUARESIZE/2), height-int(r*SQUARESIZE+SQUARESIZE/2)), RADIUS)
+    pygame.display.update()
+
+BLUE = (0,0,255)
+BLACK = (0,0,0)
+RED = (255,0,0)
+YELLOW = (255,255,0)
+ 
+ROW_COUNT = 6
+COLUMN_COUNT = 7
+
+#initalize pygame
+pygame.init()
+ 
+#define our screen size
+SQUARESIZE = 100
+ 
+#define width and height of board
+width = COLUMN_COUNT * SQUARESIZE
+height = (ROW_COUNT+1) * SQUARESIZE
+ 
+size = (width, height)
+ 
+RADIUS = int(SQUARESIZE/2 - 5)
+ 
+screen = pygame.display.set_mode(size)
+#Calling function draw_board again
+ 
+myfont = pygame.font.SysFont("monospace", 75)
 
 def game():
     # Get bots
@@ -15,13 +57,14 @@ def game():
     spec2.loader.exec_module(bot2_module)
     bot2 = bot2_module.Bot()
 
-    board = fourInRow.Board()
+    board = Connect4.Board()
     # print(board.is_game_over())
 
     # Initialize time counters for each bot
     time_bot1 = 10
     time_bot2 = 10
 
+    draw_board(board.grid)
     # Play the game
     while not board.is_game_over():
         start_time = time.time()
@@ -57,17 +100,27 @@ def game():
 
         print(time_bot1, time_bot2)
         print("----------")
+        time.sleep(1)
         board.push(move)
-        print(board)
+        draw_board(board.grid)
 
     # Print the result of the game
     if board.is_win():
         if board.turn:
-            print("Bot 0 wins")
-        else:
             print("Bot 1 wins")
+            label = myfont.render("Player 2 wins!!", 1, RED)
+            screen.blit(label, (40,10))
+        else:
+            print("Bot 2 wins")
+            label = myfont.render("Player 2 wins!!", 1, RED)
+            screen.blit(label, (40,10))
     elif board.is_draw():
         print("The game is a draw")
+        label = myfont.render("Draw", 1, BLUE)
+        screen.blit(label, (40,10))
+    
+    draw_board(board.grid)
 
 if __name__ == "__main__":
     game()
+    time.sleep(5)

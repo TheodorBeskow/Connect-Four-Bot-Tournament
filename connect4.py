@@ -1,5 +1,4 @@
-
-class fourInRow:
+class Connect4:
     class Board:
         def __init__(self):
             self.rows = 6
@@ -110,7 +109,7 @@ class fourInRow:
     def __init__(self):
         pass
 
-board = fourInRow.Board()
+board = Connect4.Board()
 print(board.is_game_over())
 print(board.is_win())
 print(board.is_draw())

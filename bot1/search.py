@@ -1,4 +1,4 @@
-from fourinarow import fourInRow
+from connect4 import Connect4
 import random
 
 
