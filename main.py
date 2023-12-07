@@ -53,13 +53,13 @@ myfont = pygame.font.SysFont("monospace", 60)
 
 def game():
     # Get bots
-    name1 = "bot1"
+    name1 = "EnemyBot"
     spec1 = importlib.util.spec_from_file_location("bot1", f"Bots/{name1}/minimax.py")
     bot1_module = importlib.util.module_from_spec(spec1)
     spec1.loader.exec_module(bot1_module)
     bot1 = bot1_module.Bot()
 
-    name2 = "templateBot"
+    name2 = "YourBot"
     spec2 = importlib.util.spec_from_file_location("bot2", f"Bots/{name2}/minimax.py")
     bot2_module = importlib.util.module_from_spec(spec2)
     spec2.loader.exec_module(bot2_module)
