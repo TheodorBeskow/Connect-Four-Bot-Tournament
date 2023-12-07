@@ -16,7 +16,7 @@ class Bot:
         legal_moves = list(self.board.legal_moves)
         self.bestMove = random.choice(legal_moves)
 
-        self.search(4, 0)
+        self.search(3, 0)
 
         return self.bestMove 
 
@@ -28,12 +28,12 @@ class Bot:
             return 0
 
         if depth <= 0:
-            return 0
-            return evaluate.evaluate(self.board) * (1 if self.board.turn else -1)
+            return self.evaluate()
 
 
         moves = list(self.board.legal_moves)
         random.shuffle(moves)
+
         bestScore = -CHECKMATE_SCORE-1
         for move in moves:
             self.board.push(move)
@@ -46,6 +46,8 @@ class Bot:
 
         return score
     
-    
 
+    def evaluate(self):
+        # Maybe use self.board.grid
+        return 0
 

@@ -1,1 +1,1 @@
-# four-in-a-row
+# Connect four
