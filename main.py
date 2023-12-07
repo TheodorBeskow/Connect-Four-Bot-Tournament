@@ -48,18 +48,19 @@ myfont = pygame.font.SysFont("monospace", 75)
 
 def game():
     # Get bots
-    spec1 = importlib.util.spec_from_file_location("bot1", "bot1/search.py")
+    name1 = "bot1"
+    spec1 = importlib.util.spec_from_file_location("bot1", f"Bots/{name1}/minimax.py")
     bot1_module = importlib.util.module_from_spec(spec1)
     spec1.loader.exec_module(bot1_module)
     bot1 = bot1_module.Bot()
 
-    spec2 = importlib.util.spec_from_file_location("bot2", "bot2/search.py")
+    name2 = "bot2"
+    spec2 = importlib.util.spec_from_file_location("bot2", f"Bots/{name2}/minimax.py")
     bot2_module = importlib.util.module_from_spec(spec2)
     spec2.loader.exec_module(bot2_module)
     bot2 = bot2_module.Bot()
 
     board = Connect4.Board()
-    # print(board.is_game_over())
 
     # Initialize time counters for each bot
     time_bot1 = 10
@@ -112,12 +113,10 @@ def game():
     # Print the result of the game
     if board.is_win():
         if board.turn:
-            print("Bot 1 wins")
-            label = myfont.render("Player 2 wins!!", 1, RED)
+            label = myfont.render(f"{name2} wins!!", 1, YELLOW)
             screen.blit(label, (40,10))
         else:
-            print("Bot 2 wins")
-            label = myfont.render("Player 2 wins!!", 1, RED)
+            label = myfont.render(f"{name1} wins!!", 1, RED)
             screen.blit(label, (40,10))
     elif board.is_draw():
         print("The game is a draw")
