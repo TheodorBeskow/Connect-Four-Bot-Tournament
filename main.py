@@ -49,7 +49,7 @@ size = (width, height)
 RADIUS = int(SQUARESIZE/2 - 5)
  
 screen = pygame.display.set_mode(size)
-myfont = pygame.font.SysFont("monospace", 60)
+myfont = pygame.font.SysFont("monospace", 50)
 
 def game():
     # Get bots
@@ -91,6 +91,10 @@ def game():
                 move = future.result(timeout=remaining_time)
             except concurrent.futures.TimeoutError:
                 print((name2 if board.turn else name1) + " won by time!!")
+                screen.fill((0,0,0), (0, 0, 800, 100))
+                label = myfont.render((name2 if board.turn else name1) + " won by time!!", 1, YELLOW if board.turn else RED)
+                screen.blit(label, (40,10))
+                pygame.display.update()
                 break
 
         end_time = time.time()
@@ -124,10 +128,7 @@ def game():
     # Print the result of the game
     if board.is_win():
         screen.fill((0,0,0), (0, 0, 800, 100))
-        if board.turn:
-            label = myfont.render(f"{name2} wins!!", 1, YELLOW)
-        else:
-            label = myfont.render(f"{name1} wins!!", 1, RED)
+        label = myfont.render(f"{name2 if board.turn else name1} wins!!", 1, YELLOW if board.turn else RED)
         screen.blit(label, (40,10))
     elif board.is_draw():
         screen.fill((0,0,0), (0, 0, 800, 100))
