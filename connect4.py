@@ -106,6 +106,19 @@ class Connect4:
             self.turn ^= 1
             self.legal_moves = self.generate_legal_moves()
 
+        def pop(self): # undo last move
+            col = self.move_stack.pop()
+            row = 0
+
+            for r in range(self.rows - 1, -1, -1):
+                if self.grid[r][col] != -1:
+                    row = r
+                    break
+            
+            self.grid[row][col] = -1
+            self.turn ^= 1
+            self.legal_moves = self.generate_legal_moves()
+
     def __init__(self):
         pass
 

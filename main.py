@@ -52,7 +52,7 @@ def game():
     spec1.loader.exec_module(bot1_module)
     bot1 = bot1_module.Bot()
 
-    name2 = "bot2"
+    name2 = "templateBot"
     spec2 = importlib.util.spec_from_file_location("bot2", f"Bots/{name2}/minimax.py")
     bot2_module = importlib.util.module_from_spec(spec2)
     spec2.loader.exec_module(bot2_module)
