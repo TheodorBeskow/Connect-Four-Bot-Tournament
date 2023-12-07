@@ -42,9 +42,7 @@ size = (width, height)
 RADIUS = int(SQUARESIZE/2 - 5)
  
 screen = pygame.display.set_mode(size)
-#Calling function draw_board again
- 
-myfont = pygame.font.SysFont("monospace", 75)
+myfont = pygame.font.SysFont("monospace", 65)
 
 def game():
     # Get bots
@@ -104,7 +102,10 @@ def game():
         print("----------")
         time.sleep(0.2)
         board.push(move)
+        
+        # Display board in pygame window
         draw_board(board.grid)
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()  
@@ -119,15 +120,15 @@ def game():
             label = myfont.render(f"{name1} wins!!", 1, RED)
             screen.blit(label, (40,10))
     elif board.is_draw():
-        print("The game is a draw")
-        label = myfont.render("Draw", 1, BLUE)
+        label = myfont.render(f"{name2} wins!!", 1, YELLOW)
         screen.blit(label, (40,10))
     
     draw_board(board.grid)
+    
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit()  
+                pygame.quit()
                 return
 
 if __name__ == "__main__":
