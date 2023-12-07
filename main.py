@@ -17,6 +17,7 @@ def draw_board(board):
             elif board[r][c] == 0: 
                 pygame.draw.circle(screen, YELLOW, (int(c*SQUARESIZE+SQUARESIZE/2), height-int(r*SQUARESIZE+SQUARESIZE/2)), RADIUS)
     pygame.display.update()
+    
 
 BLUE = (0,0,255)
 BLACK = (0,0,0)
@@ -100,9 +101,13 @@ def game():
 
         print(time_bot1, time_bot2)
         print("----------")
-        time.sleep(1)
+        time.sleep(0.2)
         board.push(move)
         draw_board(board.grid)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()  
+                return
 
     # Print the result of the game
     if board.is_win():
@@ -120,7 +125,11 @@ def game():
         screen.blit(label, (40,10))
     
     draw_board(board.grid)
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()  
+                return
 
 if __name__ == "__main__":
     game()
-    time.sleep(5)

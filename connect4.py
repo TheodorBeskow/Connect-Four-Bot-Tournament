@@ -110,6 +110,3 @@ class Connect4:
         pass
 
 board = Connect4.Board()
-print(board.is_game_over())
-print(board.is_win())
-print(board.is_draw())
