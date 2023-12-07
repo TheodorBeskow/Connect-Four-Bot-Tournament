@@ -17,6 +17,13 @@ def draw_board(board):
             elif board[r][c] == 0: 
                 pygame.draw.circle(screen, YELLOW, (int(c*SQUARESIZE+SQUARESIZE/2), height-int(r*SQUARESIZE+SQUARESIZE/2)), RADIUS)
     pygame.display.update()
+
+def display_time(time_bot1, time_bot2):
+    screen.fill((0,0,0), (0, 0, 800, 100))
+    label = myfont.render(f"{time_bot1:.2f}", 1, RED)
+    screen.blit(label, (30,10))
+    label = myfont.render(f"{time_bot2:.2f}", 1, YELLOW)
+    screen.blit(label, (550,10))
     
 
 BLUE = (0,0,255)
@@ -42,7 +49,7 @@ size = (width, height)
 RADIUS = int(SQUARESIZE/2 - 5)
  
 screen = pygame.display.set_mode(size)
-myfont = pygame.font.SysFont("monospace", 65)
+myfont = pygame.font.SysFont("monospace", 60)
 
 def game():
     # Get bots
@@ -65,6 +72,8 @@ def game():
     time_bot2 = 10
 
     draw_board(board.grid)
+    display_time(time_bot1, time_bot2)
+    
     # Play the game
     while not board.is_game_over():
         start_time = time.time()
@@ -102,6 +111,7 @@ def game():
         print("----------")
         time.sleep(0.3)
         board.push(move)
+        display_time(time_bot1, time_bot2)
         
         # Display board in pygame window
         draw_board(board.grid)
@@ -113,13 +123,14 @@ def game():
 
     # Print the result of the game
     if board.is_win():
+        screen.fill((0,0,0), (0, 0, 800, 100))
         if board.turn:
             label = myfont.render(f"{name2} wins!!", 1, YELLOW)
-            screen.blit(label, (40,10))
         else:
             label = myfont.render(f"{name1} wins!!", 1, RED)
-            screen.blit(label, (40,10))
+        screen.blit(label, (40,10))
     elif board.is_draw():
+        screen.fill((0,0,0), (0, 0, 800, 100))
         label = myfont.render(f"{name2} wins!!", 1, YELLOW)
         screen.blit(label, (40,10))
     
