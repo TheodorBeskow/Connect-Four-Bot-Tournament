@@ -45,7 +45,3 @@ class Bot:
                 if ply == 0: self.bestMove = move
 
         return score
-    
-    
-
-

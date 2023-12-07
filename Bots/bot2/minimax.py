@@ -10,6 +10,3 @@ class Bot:
         bestmove = random.choice(legal_moves)
 
         return bestmove 
-
-    
-
