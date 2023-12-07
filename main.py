@@ -81,7 +81,7 @@ def game():
             try:
                 move = future.result(timeout=remaining_time)
             except concurrent.futures.TimeoutError:
-                print("Time limit exceeded")
+                print((name2 if board.turn else name1) + " won by time!!")
                 break
 
         end_time = time.time()
@@ -100,7 +100,7 @@ def game():
 
         print(time_bot1, time_bot2)
         print("----------")
-        time.sleep(0.2)
+        time.sleep(0.3)
         board.push(move)
         
         # Display board in pygame window
