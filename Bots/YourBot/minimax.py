@@ -1,7 +1,7 @@
 from connect4 import Connect4
 import random
 
-CHECKMATE_SCORE = 1000000
+INF = 1000000
 
 class Bot:
     def __init__(self):
@@ -23,18 +23,17 @@ class Bot:
 
     def search(self, depth, ply):
         if self.board.is_win():
-            return -CHECKMATE_SCORE
+            return -INF
         if self.board.is_draw():
             return 0
 
         if depth <= 0:
-            return 0
-            return evaluate.evaluate(self.board) * (1 if self.board.turn else -1)
+            return self.evaluate()
 
 
         moves = list(self.board.legal_moves)
         random.shuffle(moves)
-        bestScore = -CHECKMATE_SCORE-1
+        bestScore = -INF-1
         for move in moves:
             self.board.push(move)
             score = -self.search(depth-1, ply+1)
@@ -45,6 +44,10 @@ class Bot:
                 if ply == 0: self.bestMove = move
 
         return score
+    
+    def evaluate(self):
+        # Maybe use self.board.grid
+        return 0
     
     
 
